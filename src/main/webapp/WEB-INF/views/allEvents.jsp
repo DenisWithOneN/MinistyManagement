@@ -26,7 +26,10 @@
 <tr>
 <td><c:out value="${e.id }"/></td>
 <td><c:out value="${e.eventTitle }"/></td>
-
+<td><c:out value="${e.eventDate}"/></td>
+<td><c:out value="${e.location}"/></td>
+<td><c:out value="${e.eventTime}"/></td>
+<td><c:out value="${e.eventPresence}"/></td>
 
 </tr>
 </c:forEach>

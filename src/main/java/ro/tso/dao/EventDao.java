@@ -25,7 +25,7 @@ public class EventDao {
 
 		while (rs.next()) {
 			int id = rs.getInt("id");
-			String eventTitle = rs.getString("event_title");
+			String eventTitle= rs.getString("event_title");
 			Date eventDate = rs.getDate("event_date");
 			String location = rs.getString("location");
 			// convert local time to time sql
