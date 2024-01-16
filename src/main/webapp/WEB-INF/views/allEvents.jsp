@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<h1>All Folders</h1>
+<h1>All Events</h1>
 
 <table >
 <tr>
@@ -30,6 +30,7 @@
 <td><c:out value="${e.location}"/></td>
 <td><c:out value="${e.eventTime}"/></td>
 <td><c:out value="${e.eventPresence}"/></td>
+<td><a href="<c:url value="/events/${e.id}"/>">Detalii</a></td>
 
 </tr>
 </c:forEach>

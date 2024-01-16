@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import ro.tso.dao.EventDao;
@@ -17,5 +18,13 @@ public class EventController {
 		ModelAndView mav = new ModelAndView("allEvents");
 		mav.addObject("eventView", EventDao.allEvents());
 		return mav;
+	}
+	
+	@GetMapping("events/{id}")
+	public ModelAndView getSingleEvent(@PathVariable int id) throws SQLException, IOException {
+		ModelAndView mav = new ModelAndView("singleEvent");
+		mav.addObject("event", EventDao.getEventById(id));
+		return mav;
+		
 	}
 }

@@ -24,22 +24,50 @@ public class EventDao {
 		ArrayList<Event> all = new ArrayList<>();
 
 		while (rs.next()) {
-			int id = rs.getInt("id");
+			int eventId = rs.getInt("id");
 			String eventTitle= rs.getString("event_title");
 			Date eventDate = rs.getDate("event_date");
 			String location = rs.getString("location");
 			// convert local time to time sql
 			Time eventTimeSql = rs.getTime("starting_hour");
 			LocalTime eventTime = eventTimeSql.toLocalTime();
-
 			int eventPresence = rs.getInt("event_presence");
 
-			Event event = new Event(id, eventTitle, eventDate, location, eventTime, eventPresence);
+			Event event = new Event(eventId, eventTitle, eventDate, location, eventTime, eventPresence);
 			all.add(event);
 		}
 
 		DBhelper.closeConnection();
 		return all;
 
+	}
+	
+	public static Event getEventById(int id) throws SQLException, IOException{
+		Connection con = DBhelper.getConnection();
+		String getQuery = "select * from event where id=?";
+		PreparedStatement ps = con.prepareStatement(getQuery);
+		ps.setInt(1, id);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		while(rs.next()) {
+			int eventId = rs.getInt("id");
+			String eventTitle= rs.getString("event_title");
+			Date eventDate = rs.getDate("event_date");
+			String location = rs.getString("location");
+			// convert local time to time sql
+			Time eventTimeSql = rs.getTime("starting_hour");
+			LocalTime eventTime = eventTimeSql.toLocalTime();
+			int eventPresence = rs.getInt("event_presence");
+			
+			Event event = new Event(eventId, eventTitle, eventDate, location, eventTime, eventPresence);
+			
+			DBhelper.closeConnection();
+			return event;
+		}
+		
+		DBhelper.closeConnection();
+		return null;
+		
 	}
 }
