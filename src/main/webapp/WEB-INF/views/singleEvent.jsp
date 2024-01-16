@@ -8,8 +8,14 @@
 </head>
 <body>
 
-hi :)
+<h1>single event page</h1>
 
+<p>id: ${singleEvent.id }</p>
+<p>Title: ${singleEvent.eventTitle}</p>
+<p>Date of the event: ${singleEvent.eventDate}</p>
+<p>Location: ${singleEvent.location}</p>
+<p>Starting hour: ${singleEvent.eventTime}</p>
+<p>Est. Presence: ${singleEvent.eventPresence} </p>
 <a href="./all">home</a>
 
 </body>

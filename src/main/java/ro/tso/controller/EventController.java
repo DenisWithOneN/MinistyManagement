@@ -23,7 +23,7 @@ public class EventController {
 	@GetMapping("events/{id}")
 	public ModelAndView getSingleEvent(@PathVariable int id) throws SQLException, IOException {
 		ModelAndView mav = new ModelAndView("singleEvent");
-		mav.addObject("event", EventDao.getEventById(id));
+		mav.addObject("singleEvent", EventDao.getEventById(id));
 		return mav;
 		
 	}
