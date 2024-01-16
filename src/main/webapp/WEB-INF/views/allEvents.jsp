@@ -31,6 +31,8 @@
 <td><c:out value="${e.eventTime}"/></td>
 <td><c:out value="${e.eventPresence}"/></td>
 <td><a href="<c:url value="/events/${e.id}"/>">Detalii</a></td>
+<td><a href="<c:url value="/events/delete/${e.id}"/>">Sterge</a></td>
+
 
 </tr>
 </c:forEach>

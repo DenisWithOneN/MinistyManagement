@@ -46,9 +46,9 @@ public class EventController {
 		return new ModelAndView("redirect:/events/all");
 	}
 	
-	@GetMapping("folders/delete/{id}")
-	public ModelAndView delete(@PathVariable int id) {
+	@GetMapping("events/delete/{id}")
+	public ModelAndView delete(@PathVariable int id) throws SQLException, IOException{
 		EventDao.deleteById(id);
-		return new ModelAndView("redirect:/events/all")
+		return new ModelAndView("redirect:/events/all");
 	}
 }

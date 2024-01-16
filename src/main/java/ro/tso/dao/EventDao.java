@@ -85,4 +85,14 @@ public class EventDao {
 		DBhelper.closeConnection();
 	
 	}
+	
+	public static void deleteById(int id) throws SQLException {
+		Connection con = DBhelper.getConnection();
+		String deleteQuery = "delete from event where id = ?";
+		PreparedStatement ps = con.prepareStatement(deleteQuery);
+		ps.setInt(1, id);
+		ps.executeUpdate();
+		DBhelper.closeConnection();
+		
+	}
 }
