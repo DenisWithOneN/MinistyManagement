@@ -32,6 +32,8 @@
 <td><c:out value="${e.eventPresence}"/></td>
 <td><a href="<c:url value="/events/${e.id}"/>">Detalii</a></td>
 <td><a href="<c:url value="/events/delete/${e.id}"/>">Sterge</a></td>
+<td><a href="<c:url value="/events/edit/${e.id}"/>">Editeaza</a></td>
+
 
 
 </tr>
