@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ro.tso.dao.EventDao;
@@ -35,12 +36,12 @@ public class EventController {
 	
 	@GetMapping("events/add")
 	public ModelAndView addEvent(Model model) {
-		mod.addAttribute("event", new Event());
+		model.addAttribute("event", new Event());
 		return new ModelAndView("addEvent", "model", model);
 	}
 	
 	@PostMapping("events/add")
-	public ModelAndView createEvent(@ModelAttribute Event event, ModelMap map, BindingResult binding) {
+	public ModelAndView createEvent(@ModelAttribute Event event, ModelMap map, BindingResult binding) throws SQLException, IOException {
 		EventDao.createEvent(event);
 		return new ModelAndView("redirect:events/all");
 	}

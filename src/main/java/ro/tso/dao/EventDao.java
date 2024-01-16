@@ -71,4 +71,18 @@ public class EventDao {
 		
 	}
 	
+	public static void createEvent(Event event) throws SQLException {
+		Connection con = DBhelper.getConnection();
+		String createQuery = "update event set event_title=?, event_date=?, location=?, starting_hour=?, event_presence=?;";
+		PreparedStatement ps = con.prepareStatement(createQuery);
+		ps.setString(1, event.getEventTitle());
+		ps.setDate(2, event.getEventDate());
+		ps.setString(3, event.getLocation());
+		LocalTime eventTime = event.getEventTime();
+		Time sqlTime = Time.valueOf(eventTime);
+		ps.setTime(4, sqlTime);
+		ps.setInt(5, event.getEventPresence());
+		DBhelper.closeConnection();
+	
+	}
 }
