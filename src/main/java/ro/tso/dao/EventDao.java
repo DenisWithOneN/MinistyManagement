@@ -14,33 +14,32 @@ import ro.tso.helper.DBhelper;
 import ro.tso.pojo.Event;
 
 public class EventDao {
-	
-	
-public static ArrayList<Event> allEvents() throws SQLException, IOException{
-	Connection con = DBhelper.getConnection();
-	String query = "select * from event";
-	PreparedStatement prepStmt = con.prepareStatement(query);
-	ResultSet rs = prepStmt.executeQuery();
-	
-	ArrayList<Event> all = new ArrayList<>();
-	
-	while(rs.next()) {
-		int id = rs.getInt("id");
-		String eventTitle =rs.getString("eventTitle");
-		Date eventDate = rs.getDate("eventDate");
-		String location = rs.getString("location");
-		//convert local time to time sql
-		Time eventTimeSql = rs.getTime("eventTime");
-		LocalTime eventTime = eventTimeSql.toLocalTime();
-		
-		int eventPresence = rs.getInt("eventPresence");
-		
-		all.add(event);
+
+	public static ArrayList<Event> allEvents() throws SQLException, IOException {
+		Connection con = DBhelper.getConnection();
+		String query = "select * from event";
+		PreparedStatement prepStmt = con.prepareStatement(query);
+		ResultSet rs = prepStmt.executeQuery();
+
+		ArrayList<Event> all = new ArrayList<>();
+
+		while (rs.next()) {
+			int id = rs.getInt("id");
+			String eventTitle = rs.getString("event_title");
+			Date eventDate = rs.getDate("event_date");
+			String location = rs.getString("location");
+			// convert local time to time sql
+			Time eventTimeSql = rs.getTime("starting_hour");
+			LocalTime eventTime = eventTimeSql.toLocalTime();
+
+			int eventPresence = rs.getInt("event_presence");
+
+			Event event = new Event(id, eventTitle, eventDate, location, eventTime, eventPresence);
+			all.add(event);
+		}
+
+		DBhelper.closeConnection();
+		return all;
+
 	}
-	
-	DBhelper.closeConnection();
-	return all;
-	
-	
-}
 }
