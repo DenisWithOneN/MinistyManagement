@@ -4,11 +4,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import ro.tso.dao.EventDao;
+import ro.tso.pojo.Event;
 
 @Controller
 public class EventController {
@@ -26,5 +31,17 @@ public class EventController {
 		mav.addObject("singleEvent", EventDao.getEventById(id));
 		return mav;
 		
+	}
+	
+	@GetMapping("events/add")
+	public ModelAndView addEvent(Model model) {
+		mod.addAttribute("event", new Event());
+		return new ModelAndView("addEvent", "model", model);
+	}
+	
+	@PostMapping("events/add")
+	public ModelAndView createEvent(@ModelAttribute Event event, ModelMap map, BindingResult binding) {
+		EventDao.createEvent(event);
+		return new ModelAndView("redirect:events/all");
 	}
 }
