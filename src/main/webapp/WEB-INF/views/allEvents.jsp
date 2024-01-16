@@ -35,5 +35,7 @@
 </tr>
 </c:forEach>
 </table>
+
+<a href="<c:url value="/events/create"/>">Add new event</a>
 </body>
 </html>

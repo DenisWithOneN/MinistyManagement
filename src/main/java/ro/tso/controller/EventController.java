@@ -34,15 +34,21 @@ public class EventController {
 		
 	}
 	
-	@GetMapping("events/add")
+	@GetMapping("events/create")
 	public ModelAndView addEvent(Model model) {
 		model.addAttribute("event", new Event());
-		return new ModelAndView("addEvent", "model", model);
+		return new ModelAndView("createEvent", "model", model);
 	}
 	
-	@PostMapping("events/add")
+	@PostMapping("events/create")
 	public ModelAndView createEvent(@ModelAttribute Event event, ModelMap map, BindingResult binding) throws SQLException, IOException {
 		EventDao.createEvent(event);
-		return new ModelAndView("redirect:events/all");
+		return new ModelAndView("redirect:/events/all");
+	}
+	
+	@GetMapping("folders/delete/{id}")
+	public ModelAndView delete(@PathVariable int id) {
+		EventDao.deleteById(id);
+		return new ModelAndView("redirect:/events/all")
 	}
 }
