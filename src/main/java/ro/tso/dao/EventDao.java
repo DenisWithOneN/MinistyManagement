@@ -15,7 +15,7 @@ import ro.tso.pojo.Event;
 
 public class EventDao {
 
-	public static ArrayList<Event> allEvents() throws SQLException, IOException {
+	public static ArrayList<Event> getAll() throws SQLException, IOException {
 		Connection con = DBhelper.getConnection();
 		String query = "select * from event";
 		PreparedStatement prepStmt = con.prepareStatement(query);
@@ -42,7 +42,7 @@ public class EventDao {
 
 	}
 	
-	public static Event getEventById(int id) throws SQLException, IOException{
+	public static Event getById(int id) throws SQLException, IOException{
 		Connection con = DBhelper.getConnection();
 		String getQuery = "select * from event where id=?";
 		PreparedStatement ps = con.prepareStatement(getQuery);
@@ -71,20 +71,26 @@ public class EventDao {
 		
 	}
 	
-	public static void createEvent(Event event) throws SQLException {
+	public static void create(Event event) throws SQLException {
+		EventDao.create(event.getEventTitle(), event.getEventDate(), event.getLocation(), event.getEventTime(), event.getEventPresence());
+	}
+	
+	
+	public static void create(String eventTitle, Date eventDate, String location, LocalTime eventTime, int eventPresence) throws SQLException {
+		String insertQuery = "insert into event (event_title, event_date, location, starting_hour, event_presence)" + "value(?,?,?,?,?)";
 		Connection con = DBhelper.getConnection();
-		String createQuery = "update event set event_title=?, event_date=?, location=?, starting_hour=?, event_presence=?;";
-		PreparedStatement ps = con.prepareStatement(createQuery);
-		ps.setString(1, event.getEventTitle());
-		ps.setDate(2, event.getEventDate());
-		ps.setString(3, event.getLocation());
-		LocalTime eventTime = event.getEventTime();
+		PreparedStatement ps = con.prepareStatement(insertQuery);
+		ps.setString(1, eventTitle);
+		ps.setDate(2, eventDate);
+		ps.setString(3, location);
 		Time sqlTime = Time.valueOf(eventTime);
 		ps.setTime(4, sqlTime);
-		ps.setInt(5, event.getEventPresence());
+		ps.setInt(5, eventPresence);
+		System.out.println("1");
+		ps.executeUpdate();
 		DBhelper.closeConnection();
-	
 	}
+	
 	
 	public static void deleteById(int id) throws SQLException {
 		Connection con = DBhelper.getConnection();
@@ -94,5 +100,23 @@ public class EventDao {
 		ps.executeUpdate();
 		DBhelper.closeConnection();
 		
+	}
+	
+	public static void update(Event event) throws SQLException {
+		Connection con = DBhelper.getConnection();
+		String updateQuery = "update event set event_title=?, event_date=?, location=?, starting_hour=?, event_presence=? where id=?;";
+		PreparedStatement ps = con.prepareStatement(updateQuery);
+		ps.setString(1, event.getEventTitle());
+		ps.setDate(2, event.getEventDate());
+		ps.setString(3, event.getLocation());
+		LocalTime eventTime = event.getEventTime();
+		Time sqlTime = Time.valueOf(eventTime);
+		ps.setTime(4, sqlTime);
+		ps.setInt(5, event.getEventPresence());
+		System.out.println(event.getId());
+		ps.setInt(6, event.getId());
+		ps.executeUpdate();
+
+		DBhelper.closeConnection();
 	}
 }

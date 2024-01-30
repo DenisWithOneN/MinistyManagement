@@ -6,11 +6,16 @@ public class Speaker {
 	private String speakerName;
 	private int speakerPhoneNumber;
 	private String emailAdress;
+	
 	public Speaker(int id, String speakerName, int speakerPhoneNumber, String emailAdress) {
 		this.id = id;
 		this.speakerName = speakerName;
 		this.speakerPhoneNumber = speakerPhoneNumber;
 		this.emailAdress = emailAdress;
+	}
+	
+	public Speaker() {
+		
 	}
 	public int getId() {
 		return id;

@@ -22,33 +22,64 @@ public class EventController {
 	@GetMapping("events/all")
 	public ModelAndView getAll() throws SQLException, IOException {
 		ModelAndView mav = new ModelAndView("allEvents");
-		mav.addObject("eventView", EventDao.allEvents());
+		mav.addObject("eventView", EventDao.getAll());
 		return mav;
 	}
-	
+
 	@GetMapping("events/{id}")
 	public ModelAndView getSingleEvent(@PathVariable int id) throws SQLException, IOException {
 		ModelAndView mav = new ModelAndView("singleEvent");
-		mav.addObject("singleEvent", EventDao.getEventById(id));
+		mav.addObject("singleEvent", EventDao.getById(id));
 		return mav;
-		
+
 	}
-	
-	@GetMapping("events/create")
-	public ModelAndView addEvent(Model model) {
-		model.addAttribute("event", new Event());
+
+	@GetMapping("/events/create")
+	public ModelAndView addEvent(Model model) throws SQLException, IOException {
+		Event event = new Event();
+		model.addAttribute("event", event);
 		return new ModelAndView("createEvent", "model", model);
 	}
-	
-	@PostMapping("events/create")
-	public ModelAndView createEvent(@ModelAttribute Event event, ModelMap map, BindingResult binding) throws SQLException, IOException {
-		EventDao.createEvent(event);
+
+	@PostMapping("/events/create")
+	public ModelAndView eventAddSave(@ModelAttribute("event") Event event, ModelMap model, BindingResult result) {
+
+		try {
+			EventDao.create(event);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new ModelAndView("redirect:/events/all");
+	}
+
+	@GetMapping("events/delete/{id}")
+	public ModelAndView delete(@PathVariable int id) throws SQLException, IOException {
+		EventDao.deleteById(id);
 		return new ModelAndView("redirect:/events/all");
 	}
 	
-	@GetMapping("events/delete/{id}")
-	public ModelAndView delete(@PathVariable int id) throws SQLException, IOException{
-		EventDao.deleteById(id);
+	@GetMapping("/events/edit/{id}")
+	public ModelAndView eventEditGet(Model model, @PathVariable int id) throws SQLException, IOException {
+		System.out.println("ID from Path Variable: " + id);
+		Event event = EventDao.getById(id);
+		System.out.println("ID from Event Object: " + event.getId());
+		model.addAttribute("event", event);
+		return new ModelAndView("editEvent", "model", model);
+	}
+	
+	@PostMapping("/events/edit")
+	public ModelAndView eventEditSave(@ModelAttribute("event") Event event, ModelMap model, BindingResult result) {
+		try {
+			EventDao.update(event);
+		} catch (SQLException sqlException) {
+	        // Handle or log SQLException
+	        sqlException.printStackTrace();
+	    } catch (Exception e) {
+	        // Catch any other exceptions
+	        e.printStackTrace();
+	    }
+
 		return new ModelAndView("redirect:/events/all");
 	}
 }
